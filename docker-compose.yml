@@ -187,7 +187,7 @@ services:
       - traefik.http.middlewares.jellyseerr-stripprefix.stripPrefix.prefixes=/jellyseerr
       - traefik.http.middlewares.jellyseerr-rewriteHeaders.plugin.rewriteHeaders.rewrites[0].header=location
       - traefik.http.middlewares.jellyseerr-rewriteHeaders.plugin.rewriteHeaders.rewrites[0].regex=^/(.+)$$
-      - traefik.http.middlewares.jellyseerr-rewriteHeaders.plugin.rewriteHeaders.rewrites[0].replacement=/jellyseerr/$1
+      - traefik.http.middlewares.jellyseerr-rewriteHeaders.plugin.rewriteHeaders.rewrites[0].replacement=/jellyseerr/$$1
       - traefik.http.middlewares.jellyseerr-rewriteHeaders.plugin.rewriteHeaders.rewrites[1].header=location
       - traefik.http.middlewares.jellyseerr-rewriteHeaders.plugin.rewriteHeaders.rewrites[1].regex=^/$$
       - traefik.http.middlewares.jellyseerr-rewriteHeaders.plugin.rewriteHeaders.rewrites[1].replacement=/jellyseerr
@@ -217,13 +217,13 @@ services:
       - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[11].regex=src="/os_logo_square.png"
       - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[11].replacement=src="/jellyseerr/os_logo_square.png"
       - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[12].regex=href([=:])"/([/a-zA-Z?=]*)"
-      - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[12].replacement=href$1"/jellyseerr/$2"
+      - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[12].replacement=href$1"/jellyseerr/$$2"
       - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[13].regex=linkUrl:"/([/a-zA-Z?=]*)"
-      - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[13].replacement=linkUrl:"/jellyseerr/$1"
+      - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[13].replacement=linkUrl:"/jellyseerr/$$1"
       - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[14].regex="/([a-z]+)/".concat
-      - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[14].replacement="/jellyseerr/$1/".concat
+      - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[14].replacement="/jellyseerr/$$1/".concat
       - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[15].regex=url:"/([/a-zA-Z?=]*)"
-      - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[15].replacement=url:"/jellyseerr/$1"
+      - traefik.http.middlewares.jellyseerr-rewrite.plugin.rewrite-body.rewrites[15].replacement=url:"/jellyseerr/$$1"
       
       - homepage.group=Media
       - homepage.name=JellySeerr
