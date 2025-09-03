@@ -61,7 +61,7 @@ services:
       - traefik.http.routers.sonarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/sonarr`))
       - traefik.http.routers.sonarr.tls=true
       - traefik.http.routers.sonarr.tls.certresolver=myresolver
-      - traefik.http.services.sonarr.loadbalancer.server.port=8989
+      - traefik.http.services.sonarr.loadbalancer.server.url=http://host.docker.internal:8989
       - homepage.group=Media
       - homepage.name=Sonarr
       - homepage.icon=sonarr.png
@@ -92,7 +92,7 @@ services:
       - traefik.http.routers.radarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/radarr`))
       - traefik.http.routers.radarr.tls=true
       - traefik.http.routers.radarr.tls.certresolver=myresolver
-      - traefik.http.services.radarr.loadbalancer.server.port=7878
+      - traefik.http.services.radarr.loadbalancer.server.url=http://host.docker.internal:7878
       - homepage.group=Media
       - homepage.name=Radarr
       - homepage.icon=radarr.png
@@ -277,7 +277,7 @@ services:
       - traefik.enable=true
       - traefik.http.routers.flaresolverr.rule=PathPrefix(`/flaresolverr`)
       - traefik.http.routers.flaresolverr.tls=true
-      - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
+      - traefik.http.services.flaresolverr.loadbalancer.server.url=http://host.docker.internal:8191
     profiles:
       - flaresolverr
   qbittorrent: ## Bittorrent client, localhost/qbittorrent
@@ -335,6 +335,9 @@ services:
       - 8388:8388/udp # Shadowsocks
       - 8100:8100/tcp
       - 8082:8082 ## qbittorrent web ui port
+      - 8989:8989 # Sonarr
+      - 7878:7878 # Radarr
+      - 8191:8191 # Flaresolverr
     volumes:
       - /home/giffel:/gluetun
     environment:
