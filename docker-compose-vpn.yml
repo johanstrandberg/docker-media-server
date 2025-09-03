@@ -47,6 +47,7 @@ services:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
       - TZ=${TIMEZONE}
+      - SONARR__SERVER__URLBASE=/sonarr
     volumes:
       - ${CONFIG_ROOT:-.}/sonarr:/config
       - ${DATA_ROOT}:/data
@@ -78,6 +79,7 @@ services:
       - PUID=${USER_ID}
       - PGID=${GROUP_ID}
       - TZ=${TIMEZONE}
+      - RADARR__SERVER__URLBASE=/radarr
     volumes:
       - ${CONFIG_ROOT:-.}/radarr:/config
       - ${DATA_ROOT}:/data
