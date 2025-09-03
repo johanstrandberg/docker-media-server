@@ -1,58 +1,4 @@
 services:
-  sonarr-proxy:
-    image: alpine/socat
-    container_name: sonarr-proxy
-    command: ["tcp-listen:8989,fork,reuseaddr", "tcp:sonarr:8989"]
-    depends_on:
-      - sonarr
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.sonarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/sonarr`))
-      - traefik.http.routers.sonarr.tls=true
-      - traefik.http.routers.sonarr.tls.certresolver=myresolver
-      - traefik.http.services.sonarr.loadbalancer.server.port=8989
-      - homepage.group=Media
-      - homepage.name=Sonarr
-      - homepage.icon=sonarr.png
-      - homepage.href=/sonarr
-      - homepage.description=Series management
-      - homepage.weight=0
-      - homepage.widget.type=sonarr
-      - homepage.widget.url=http://sonarr-proxy:8989/sonarr
-      - homepage.widget.key=${SONARR_API_KEY}
-  radarr-proxy:
-    image: alpine/socat
-    container_name: radarr-proxy
-    command: ["tcp-listen:7878,fork,reuseaddr", "tcp:radarr:7878"]
-    depends_on:
-      - radarr
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.radarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/radarr`))
-      - traefik.http.routers.radarr.tls=true
-      - traefik.http.routers.radarr.tls.certresolver=myresolver
-      - traefik.http.services.radarr.loadbalancer.server.port=7878
-      - homepage.group=Media
-      - homepage.name=Radarr
-      - homepage.icon=radarr.png
-      - homepage.href=/radarr
-      - homepage.description=Movies management
-      - homepage.weight=1
-      - homepage.widget.type=radarr
-      - homepage.widget.url=http://radarr-proxy:7878/radarr
-      - homepage.widget.key=${RADARR_API_KEY}
-
-  flaresolverr-proxy:
-    image: alpine/socat
-    container_name: flaresolverr-proxy
-    command: ["tcp-listen:8191,fork,reuseaddr", "tcp:flaresolverr:8191"]
-    depends_on:
-      - flaresolverr
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.flaresolverr.rule=PathPrefix(`/flaresolverr`)
-      - traefik.http.routers.flaresolverr.tls=true
-      - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
   traefik: ## Reverse proxy, localhost:80 and localhost:443
     image: traefik:v3.0
     container_name: traefik
@@ -110,6 +56,21 @@ services:
       interval: 30s
       retries: 10
     network_mode: service:gluetun
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.sonarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/sonarr`))
+      - traefik.http.routers.sonarr.tls=true
+      - traefik.http.routers.sonarr.tls.certresolver=myresolver
+      - traefik.http.services.sonarr.loadbalancer.server.port=8989
+      - homepage.group=Media
+      - homepage.name=Sonarr
+      - homepage.icon=sonarr.png
+      - homepage.href=/sonarr
+      - homepage.description=Series management
+      - homepage.weight=0
+      - homepage.widget.type=sonarr
+      - homepage.widget.url=http://sonarr:8989/sonarr
+      - homepage.widget.key=${SONARR_API_KEY}
   radarr: ## Movies management, localhost/radarr
     image: lscr.io/linuxserver/radarr
     container_name: radarr
@@ -126,6 +87,21 @@ services:
       interval: 30s
       retries: 10
     network_mode: service:gluetun
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.radarr.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/radarr`))
+      - traefik.http.routers.radarr.tls=true
+      - traefik.http.routers.radarr.tls.certresolver=myresolver
+      - traefik.http.services.radarr.loadbalancer.server.port=7878
+      - homepage.group=Media
+      - homepage.name=Radarr
+      - homepage.icon=radarr.png
+      - homepage.href=/radarr
+      - homepage.description=Movies management
+      - homepage.weight=1
+      - homepage.widget.type=radarr
+      - homepage.widget.url=http://radarr:7878/radarr
+      - homepage.widget.key=${RADARR_API_KEY}
   lidarr: ## Music management, localhost/lidarr
     image: lscr.io/linuxserver/lidarr
     container_name: lidarr
@@ -297,6 +273,11 @@ services:
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
       - TZ=${TIMEZONE}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.flaresolverr.rule=PathPrefix(`/flaresolverr`)
+      - traefik.http.routers.flaresolverr.tls=true
+      - traefik.http.services.flaresolverr.loadbalancer.server.port=8191
   qbittorrent: ## Bittorrent client, localhost/qbittorrent
     image: lscr.io/linuxserver/qbittorrent:libtorrentv1
     container_name: qbittorrent
