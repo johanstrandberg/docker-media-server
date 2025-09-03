@@ -297,8 +297,6 @@ services:
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
       - TZ=${TIMEZONE}
-    profiles:
-      - flaresolverr
   qbittorrent: ## Bittorrent client, localhost/qbittorrent
     image: lscr.io/linuxserver/qbittorrent:libtorrentv1
     container_name: qbittorrent
