@@ -3,8 +3,6 @@ services:
     image: alpine/socat
     container_name: sonarr-proxy
     command: ["tcp-listen:8989,fork,reuseaddr", "tcp:sonarr:8989"]
-    networks:
-      - media-net
     depends_on:
       - sonarr
     labels:
@@ -22,13 +20,10 @@ services:
       - homepage.widget.type=sonarr
       - homepage.widget.url=http://sonarr-proxy:8989/sonarr
       - homepage.widget.key=${SONARR_API_KEY}
-
   radarr-proxy:
     image: alpine/socat
     container_name: radarr-proxy
     command: ["tcp-listen:7878,fork,reuseaddr", "tcp:radarr:7878"]
-    networks:
-      - media-net
     depends_on:
       - radarr
     labels:
@@ -51,8 +46,6 @@ services:
     image: alpine/socat
     container_name: flaresolverr-proxy
     command: ["tcp-listen:8191,fork,reuseaddr", "tcp:flaresolverr:8191"]
-    networks:
-      - media-net
     depends_on:
       - flaresolverr
     labels:
