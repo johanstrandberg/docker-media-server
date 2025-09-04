@@ -261,6 +261,34 @@ services:
       - homepage.widget.type=prowlarr
       - homepage.widget.url=http://prowlarr:9696/prowlarr
       - homepage.widget.key=${PROWLARR_API_KEY}
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=${USER_ID}
+      - PGID=${GROUP_ID}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ${CONFIG_ROOT:-.}/jackett:/config
+      - ${DATA_ROOT}:/downloads
+    ports:
+      - 9117:9117
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.jackett.rule=(Host(`${HOSTNAME}`) && PathPrefix(`/jackett`))
+      - traefik.http.routers.jackett.tls=true
+      - traefik.http.routers.jackett.tls.certresolver=myresolver
+      - traefik.http.services.jackett.loadbalancer.server.port=9117
+      - homepage.group=Download
+      - homepage.name=Jackett
+      - homepage.icon=jackett.png
+      - homepage.href=/jackett
+      - homepage.description=Torrent indexer proxy
+      - homepage.weight=0
+      - homepage.widget.type=jackett
+      - homepage.widget.url=http://jackett:9117/jackett
+      - homepage.widget.key=${JACKETT_API_KEY}
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
     container_name: flaresolverr
